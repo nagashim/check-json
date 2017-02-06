@@ -55,7 +55,7 @@ func run(args []string) *checkers.Checker {
 	}
 
 	checkSt := checkers.OK
-	msg := fmt.Sprintf("%s: %s", opts.Pointer, value)
+	msg := fmt.Sprintf("%s: %v", opts.Pointer, value)
 
 	return checkers.NewChecker(checkSt, msg)
 }

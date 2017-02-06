@@ -20,6 +20,15 @@ func TestRun(t *testing.T) {
 	assert.Equal(t, checkers.OK, ckr.Status, "chr.Status should be CRITICAL")
 	assert.Equal(t, "/result/OK: 1", ckr.Message, "something went wrong")
 
+	ts = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, `{"result":{"OK":1}}`)
+	}))
+	defer ts.Close()
+
+	ckr = run([]string{"-u", ts.URL, "-p", "/result/OK"})
+	assert.Equal(t, checkers.OK, ckr.Status, "chr.Status should be CRITICAL")
+	assert.Equal(t, "/result/OK: 1", ckr.Message, "something went wrong")
+
 	ckr = run([]string{"-u", ts.URL, "-p", "/timestamp"})
 	assert.Equal(t, checkers.WARNING, ckr.Status, "chr.Status should be WARNING")
 	assert.Equal(t, `Invalid JSON pointer: "/timestamp": reflect: call of reflect.Value.Interface on zero Value`, ckr.Message, "cannot get pointer value")
