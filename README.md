@@ -1,8 +1,6 @@
-check-json
+# check-json
 
-==========
-
-Check-json
+go-check-plugin for mackerel
 
 ## Synopsis
 
